@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Most Beloved Deeds to Allah – Interactive Lesson</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8A84B;
+  --gold-light: #E8C96A;
+  --deep-teal: #0D4F5C;
+  --teal: #1A7080;
+  --teal-light: #2A9BAE;
+  --purple: #4A2072;
+  --purple-light: #6B3FA0;
+  --cream: #FDF6E3;
+  --text-dark: #1A1205;
+  --text-mid: #3D2B0A;
+  --green: #1E7A4A;
+  --red: #C0392B;
+  --shadow: 0 8px 32px rgba(0,0,0,0.15);
+  --radius: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(200,168,75,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(26,112,128,0.07) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8a84b' fill-opacity='0.04'%3E%3Cpath d='M30 0l8.66 15H21.34L30 0zm0 60l-8.66-15h17.32L30 60zM0 30l15-8.66v17.32L0 30zm60 0l-15 8.66V21.34L60 30z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+.app { position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--deep-teal) 0%, var(--purple) 100%);
+  padding: 20px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.site-header h1 { font-family:'Amiri',serif; font-size:clamp(16px,2.5vw,26px); color:var(--gold-light); line-height:1.3; }
+.site-header h1 span { display:block; font-size:0.58em; color:rgba(255,255,255,0.65); font-family:'Nunito',sans-serif; font-weight:300; }
+.live-badge {
+  background: #27ae60; color: white; font-weight:800; font-size:11px;
+  padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:5px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+.live-dot { width:7px;height:7px;border-radius:50%;background:white; }
+
+/* ── NAV ── */
+.nav-tabs {
+  display:flex; background:var(--deep-teal); padding:0 28px; gap:2px; overflow-x:auto;
+}
+.nav-tab {
+  padding:13px 18px; color:rgba(255,255,255,0.55); cursor:pointer; font-weight:700;
+  font-size:13px; border-bottom:3px solid transparent; white-space:nowrap; transition:all 0.2s;
+}
+.nav-tab:hover { color:rgba(255,255,255,0.9); }
+.nav-tab.active { color:var(--gold-light); border-bottom-color:var(--gold); }
+
+/* ── MAIN ── */
+.main { padding:28px; max-width:960px; margin:0 auto; }
+.section { display:none; animation:fadeIn 0.35s ease; }
+.section.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── CARDS ── */
+.card {
+  background:white; border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden; margin-bottom:20px;
+}
+.card-header {
+  background:linear-gradient(135deg,var(--teal),var(--deep-teal));
+  padding:18px 24px; display:flex; align-items:center; gap:12px;
+}
+.card-num {
+  background:var(--gold); color:var(--text-dark); width:34px;height:34px;
+  border-radius:50%; display:flex;align-items:center;justify-content:center;
+  font-weight:900; font-size:14px; flex-shrink:0;
+}
+.card-title { color:white; font-weight:800; font-size:17px; }
+.card-body { padding:24px; }
+
+/* ── HADITH ── */
+.hadith-box {
+  background:linear-gradient(135deg,#FDF6E3,#FEF9EE);
+  border:2px solid var(--gold); border-radius:12px; padding:22px;
+  margin:14px 0; text-align:center; position:relative;
+}
+.hadith-box::before { content:'❝'; position:absolute;top:-16px;left:20px;font-size:42px;color:var(--gold);line-height:1; }
+.hadith-text { font-family:'Amiri',serif; font-size:19px; color:var(--text-mid); line-height:1.9; margin-bottom:8px; }
+.hadith-src { font-size:12px; color:var(--teal); font-weight:700; }
+
+.term-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:14px 0; }
+.term-card { background:linear-gradient(135deg,var(--teal),var(--deep-teal)); border-radius:12px; padding:16px; color:white; }
+.term-ar { font-family:'Amiri',serif; font-size:20px; color:var(--gold-light); margin-bottom:4px; }
+.term-en { font-weight:800; font-size:13px; margin-bottom:3px; }
+.term-def { font-size:12px; opacity:0.85; }
+
+.bullets { list-style:none; }
+.bullets li { padding:10px 14px; margin-bottom:7px; border-left:4px solid var(--gold); background:rgba(200,168,75,0.06); border-radius:0 10px 10px 0; font-size:14px; line-height:1.6; }
+.bullets li::before { content:'✦ '; color:var(--gold); font-size:11px; }
+
+.story-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media(max-width:560px){.story-grid{grid-template-columns:1fr}}
+.story-card { border-radius:12px; padding:18px; border:2px solid; }
+.story-bad { border-color:var(--red); background:rgba(192,57,43,0.05); }
+.story-good { border-color:var(--green); background:rgba(30,122,74,0.05); }
+.story-name { font-weight:900; font-size:15px; margin-bottom:7px; }
+.story-bad .story-name{color:var(--red)} .story-good .story-name{color:var(--green)}
+.story-text { font-size:13px; line-height:1.7; }
+
+.means-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; margin-top:14px; }
+.means-card { background:linear-gradient(135deg,var(--purple),var(--purple-light)); border-radius:12px; padding:16px; color:white; text-align:center; }
+.means-icon { font-size:26px; margin-bottom:6px; }
+.means-title { font-weight:700; font-size:13px; }
+
+/* ── GAMES ── */
+.game-banner {
+  background:linear-gradient(135deg,var(--purple),var(--deep-teal));
+  border-radius:var(--radius); padding:22px; color:white; text-align:center; margin-bottom:20px;
+}
+.level-pill { display:inline-block; background:var(--gold); color:var(--text-dark); font-weight:800; font-size:11px; padding:4px 12px; border-radius:20px; margin-bottom:10px; }
+.game-banner h2 { font-size:20px; margin-bottom:5px; }
+.game-banner p { opacity:0.8; font-size:13px; }
+
+.game-card { background:white; border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; margin-bottom:18px; }
+.q-num { color:var(--teal); font-weight:800; font-size:12px; margin-bottom:7px; }
+.q-text { font-size:16px; font-weight:700; margin-bottom:18px; line-height:1.6; color:var(--text-mid); }
+
+.opts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media(max-width:480px){.opts{grid-template-columns:1fr}}
+.opt {
+  padding:13px 16px; border:2px solid #e5e7eb; border-radius:12px;
+  background:#fafafa; text-align:left; cursor:pointer;
+  font-family:'Nunito',sans-serif; font-size:13px; transition:all 0.18s;
+  color:var(--text-dark); display:flex; align-items:center; gap:9px;
+}
+.opt:hover:not(:disabled){border-color:var(--teal);background:rgba(26,112,128,0.05)}
+.opt.correct{border-color:var(--green);background:rgba(30,122,74,0.08);color:var(--green);font-weight:700}
+.opt.wrong{border-color:var(--red);background:rgba(192,57,43,0.08);color:var(--red)}
+.opt:disabled{cursor:not-allowed}
+.opt-ltr { width:26px;height:26px;border-radius:50%;background:var(--deep-teal);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0; }
+.opt.correct .opt-ltr{background:var(--green)} .opt.wrong .opt-ltr{background:var(--red)}
+
+.fb { padding:13px 16px; border-radius:10px; margin-top:14px; font-size:13px; font-weight:700; display:none; }
+.fb.correct{background:rgba(30,122,74,0.1);color:var(--green);border:1px solid rgba(30,122,74,0.25);display:flex;align-items:flex-start;gap:7px}
+.fb.wrong{background:rgba(192,57,43,0.1);color:var(--red);border:1px solid rgba(192,57,43,0.25);display:flex;align-items:flex-start;gap:7px}
+
+.progress-bar{height:7px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:999px;transition:width 0.4s ease}
+
+/* fill blanks */
+.fill-blank{border:none;border-bottom:2px solid var(--gold);background:transparent;font-family:'Nunito',sans-serif;font-size:15px;padding:2px 8px;width:150px;text-align:center;outline:none;transition:border-color 0.2s}
+.fill-blank:focus{border-color:var(--teal)}
+.fill-blank.correct{border-color:var(--green);color:var(--green)}
+.fill-blank.wrong{border-color:var(--red);color:var(--red)}
+.s-fill{font-size:15px;line-height:3;color:var(--text-mid)}
+
+/* matching */
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+@media(max-width:520px){.match-wrap{grid-template-columns:1fr}}
+.match-col h4{font-size:11px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.match-item{padding:11px 14px;border:2px solid #e5e7eb;border-radius:10px;cursor:pointer;font-size:13px;margin-bottom:7px;transition:all 0.18s;background:#fafafa;min-height:48px;display:flex;align-items:center}
+.match-item:hover{border-color:var(--teal);background:rgba(26,112,128,0.04)}
+.match-item.selected{border-color:var(--purple);background:rgba(74,32,114,0.06);font-weight:700}
+.match-item.matched{border-color:var(--green);background:rgba(30,122,74,0.07);color:var(--green);font-weight:700;pointer-events:none}
+.match-item.bad{animation:shake 0.3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* result splash */
+.result-splash{background:linear-gradient(135deg,var(--deep-teal),var(--purple));border-radius:var(--radius);padding:38px;text-align:center;color:white;display:none}
+.result-splash.show{display:block;animation:fadeIn 0.45s}
+.splash-emoji{font-size:56px;margin-bottom:14px}
+.splash-score{font-size:46px;font-weight:900;color:var(--gold-light)}
+.splash-label{font-size:15px;opacity:0.8;margin-bottom:20px}
+
+/* SCOREBOARD */
+.sb-header{background:linear-gradient(135deg,var(--deep-teal),var(--purple));padding:18px 24px;color:white;display:flex;justify-content:space-between;align-items:center}
+.sb-header h2{font-size:17px}
+.score-tbl{width:100%;border-collapse:collapse}
+.score-tbl th{background:#f7f8fa;padding:11px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;border-bottom:1px solid #eee}
+.score-tbl td{padding:13px 14px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.score-tbl tr:last-child td{border-bottom:none}
+.score-tbl tr:hover td{background:#fafbfc}
+.rank1{color:#C8A84B;font-weight:900} .rank2{color:#9E9E9E;font-weight:800} .rank3{color:#AD7453;font-weight:700}
+.pct-bar{height:5px;border-radius:999px;background:#eee;overflow:hidden;width:70px;display:inline-block;vertical-align:middle;margin-left:6px}
+.pct-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:999px}
+.stars{color:var(--gold);letter-spacing:1px}
+
+/* INPUTS / BUTTONS */
+.txt-input{padding:10px 14px;border:2px solid #e5e7eb;border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;font-weight:600}
+.txt-input:focus{border-color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;transition:all 0.18s}
+.btn-primary{background:var(--teal);color:white} .btn-primary:hover{background:var(--teal-light);transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:var(--text-dark)} .btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:2px solid rgba(255,255,255,0.35);color:white} .btn-ghost:hover{border-color:white}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important}
+.input-row{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+
+/* info */
+.info-box{background:linear-gradient(135deg,rgba(26,112,128,0.07),rgba(200,168,75,0.07));border:1px solid rgba(200,168,75,0.3);border-radius:10px;padding:13px 16px;font-size:13px;color:var(--text-mid);margin-bottom:14px;display:flex;gap:9px;align-items:flex-start}
+.info-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+
+/* sync indicator */
+.sync-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#888;margin-bottom:12px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#27ae60}
+.sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite}
+.sync-dot.error{background:var(--red)}
+
+@media(max-width:600px){.main{padding:14px}.card-body,.game-card{padding:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="site-header">
+  <div>
+    <h1>The Most Beloved of Deeds to Allah<span>Lesson 3 · Honorable Hadith</span></h1>
+  </div>
+  <div class="live-badge"><div class="live-dot"></div> LIVE SCORES</div>
+</header>
+
+<nav class="nav-tabs">
+  <div class="nav-tab active" onclick="showSection('presentation')" id="tab-presentation">📖 Presentation</div>
+  <div class="nav-tab" onclick="showSection('game1')" id="tab-game1">🌱 Level 1</div>
+  <div class="nav-tab" onclick="showSection('game2')" id="tab-game2">🌿 Level 2</div>
+  <div class="nav-tab" onclick="showSection('game3')" id="tab-game3">🌳 Level 3</div>
+  <div class="nav-tab" onclick="showSection('scoreboard')" id="tab-scoreboard">🏆 Scoreboard</div>
+</nav>
+
+<div class="main">
+
+<!-- ══ PRESENTATION ══ -->
+<section id="presentation" class="section active">
+
+  <div class="card">
+    <div class="card-header"><div class="card-num">1</div><div class="card-title">I Take the Initiative to Learn</div></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">💡</div><div><strong>Think carefully:</strong> What would happen if you stopped a good habit midway?</div></div>
+      <ul class="bullets">
+        <li>You planted a tree 🌱, watered it every day, then <strong>stopped</strong> — what happens?</li>
+        <li>You stopped feeding your pet 🐱 — what happens?</li>
+        <li>You started memorizing Qur'an 📖, then stopped after 3 months — what happens?</li>
+        <li>You started learning computers 💻, then stopped after one week — what happens?</li>
+      </ul>
+      <div class="hadith-box" style="margin-top:18px"><div class="hadith-text" style="font-size:15px">✍️ <em>Conclusion:</em> Stopping a useful activity leads to <strong>loss, regression, and missing out on rewards</strong>.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-num">2</div><div class="card-title">I Read and Memorize — The Honorable Hadith</div></div>
+    <div class="card-body">
+      <div class="hadith-box">
+        <div class="hadith-text">"That which is done <strong>continuously</strong>, even if it is <strong>small</strong>."</div>
+        <div class="hadith-src">📜 Narrated by Imam Muslim — from A'isha (May Allah be pleased with her)</div>
+        <div style="margin-top:8px;font-size:12px;color:#666">When asked: "What is the most pleasing act to Allah?"</div>
+      </div>
+      <div class="term-grid">
+        <div class="term-card"><div class="term-ar">أَدُومَهُ</div><div class="term-en">Done Continuously</div><div class="term-def">The continued, uninterrupted performance of good deeds.</div></div>
+        <div class="term-card"><div class="term-ar">وَإِنْ قَلَّ</div><div class="term-en">Even If It Is Small</div><div class="term-def">Even a little deed — size does not matter, consistency does.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-num">3</div><div class="card-title">I Understand the Indication</div></div>
+    <div class="card-body">
+      <div class="info-box"><div class="info-icon">🕌</div><div><strong>Key Lesson:</strong> Consistent small good deeds are better than interrupted great ones.</div></div>
+      <ul class="bullets">
+        <li>The most beloved deed is one a person <strong>continues doing</strong>, even if small.</li>
+        <li>Choose deeds you <em>can do</em> — so you can continue them without burden.</li>
+        <li>By doing deeds continuously, you will <strong>win the love of Allah ﷻ</strong>.</li>
+      </ul>
+      <div class="hadith-box" style="margin-top:14px">
+        <div class="hadith-text" style="font-size:14px">"Do only those good deeds which you can do, for Allah does not get tired (of giving rewards) till you get tired."</div>
+        <div class="hadith-src">📜 Narrated by Al-Bukhari</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-num">4</div><div class="card-title">I Read and Compare</div></div>
+    <div class="card-body">
+      <div class="story-grid">
+        <div class="story-card story-bad">
+          <div class="story-name">❌ Khalid</div>
+          <div class="story-text">Honored his mother for years, then grew bored and spoke hurtful words. She died heartbroken days later.<br><br><strong>Result:</strong> Stopped good deed → great harm & regret.</div>
+        </div>
+        <div class="story-card story-good">
+          <div class="story-name">✅ Jassim</div>
+          <div class="story-text">Cared for elderly neighbor daily. Even after moving far away, he continued visiting every day.<br><br><strong>Result:</strong> Kept up good deed → earned Allah's love & reward.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-num">5</div><div class="card-title">Benefits & Helpful Means</div></div>
+    <div class="card-body">
+      <ul class="bullets">
+        <li>🌟 <strong>Guidance by Allah ﷻ</strong> — for those who strive continuously.</li>
+        <li>🐋 <strong>Surviving Adversity</strong> — Prophet Yunus's constant praise saved him from the whale. (Surat As-Saffat 143–144)</li>
+        <li>💧 <strong>Purification</strong> — Five daily prayers erase sins like bathing 5 times removes all dirt. (Al-Bukhari)</li>
+        <li>✈️ <strong>Reward Even When Unable</strong> — Illness or travel: you still receive reward for regular deeds. (Al-Bukhari)</li>
+        <li>🌙 <strong>Making Up Missed Acts</strong> — Missing nightly recitation? Reading between Fajr–Zuhr counts. (Muslim)</li>
+      </ul>
+      <div class="means-grid">
+        <div class="means-card"><div class="means-icon">🤲</div><div class="means-title">Sincere Intention</div></div>
+        <div class="means-card"><div class="means-icon">🕌</div><div class="means-title">Congregational Prayer</div></div>
+        <div class="means-card"><div class="means-icon">👨‍👩‍👧</div><div class="means-title">Righteous Company</div></div>
+        <div class="means-card"><div class="means-icon">📅</div><div class="means-title">Daily Routine</div></div>
+        <div class="means-card"><div class="means-icon">📖</div><div class="means-title">Qur'an Recitation</div></div>
+        <div class="means-card"><div class="means-icon">❤️</div><div class="means-title">Love of Allah</div></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ GAME 1 ══ -->
+<section id="game1" class="section">
+  <div class="game-banner">
+    <div class="level-pill">🌱 Level 1 — Knowledge & Recall</div>
+    <h2>Multiple Choice Quiz</h2>
+    <p>5 questions · scores saved live to teacher scoreboard</p>
+  </div>
+  <div class="input-row">
+    <input class="txt-input" id="g1-name" placeholder="Your full name" style="flex:1;max-width:260px">
+    <button class="btn btn-gold" onclick="startG1()">▶ Start Quiz</button>
+  </div>
+  <div id="g1-area"><div class="info-box"><div class="info-icon">ℹ️</div><div>Enter your name and press Start Quiz.</div></div></div>
+</section>
+
+<!-- ══ GAME 2 ══ -->
+<section id="game2" class="section">
+  <div class="game-banner">
+    <div class="level-pill">🌿 Level 2 — Comprehension</div>
+    <h2>Fill in the Blanks + Matching</h2>
+    <p>9 points · scores saved live to teacher scoreboard</p>
+  </div>
+  <div class="input-row">
+    <input class="txt-input" id="g2-name" placeholder="Your full name" style="flex:1;max-width:260px">
+    <button class="btn btn-gold" onclick="startG2()">▶ Start Game</button>
+  </div>
+  <div id="g2-area"><div class="info-box"><div class="info-icon">ℹ️</div><div>Enter your name and press Start Game.</div></div></div>
+</section>
+
+<!-- ══ GAME 3 ══ -->
+<section id="game3" class="section">
+  <div class="game-banner">
+    <div class="level-pill">🌳 Level 3 — Critical Thinking</div>
+    <h2>Scenario Analysis Challenge</h2>
+    <p>5 scenarios · scores saved live to teacher scoreboard</p>
+  </div>
+  <div class="input-row">
+    <input class="txt-input" id="g3-name" placeholder="Your full name" style="flex:1;max-width:260px">
+    <button class="btn btn-gold" onclick="startG3()">▶ Start Challenge</button>
+  </div>
+  <div id="g3-area"><div class="info-box"><div class="info-icon">ℹ️</div><div>Enter your name and press Start Challenge.</div></div></div>
+</section>
+
+<!-- ══ SCOREBOARD ══ -->
+<section id="scoreboard" class="section">
+  <div class="card">
+    <div class="sb-header">
+      <h2>🏆 Live Class Scoreboard</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="loadScoreboard()">🔄 Refresh</button>
+        <button class="btn btn-ghost" onclick="clearAll()">🗑 Clear</button>
+        <button class="btn btn-ghost" onclick="exportCSV()">⬇ CSV</button>
+      </div>
+    </div>
+    <div style="padding:20px">
+      <div class="sync-row"><div class="sync-dot" id="sb-dot"></div><span id="sb-status">Loading scores…</span></div>
+      <div id="sb-content"><div class="info-box"><div class="info-icon">⏳</div><div>Fetching scores from server…</div></div></div>
+    </div>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script>
+/* ═══ NAV ═══ */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='scoreboard') loadScoreboard();
+}
+
+/* ═══ STORAGE VIA CLAUDE API ═══ */
+const STORAGE_KEY = 'lesson_scores_v1';
+
+async function apiCall(prompt) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      system:`You are a JSON data store. You ONLY output valid JSON, no explanation, no markdown.
+When asked to GET scores, return the current scores array.
+When asked to ADD a score, add it to the array and return the updated array.
+When asked to CLEAR, return an empty array [].
+Always return ONLY a JSON array of score objects with fields: name, level, score, total, pct, stars, time.`,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  const d = await res.json();
+  const text = d.content?.map(c=>c.text||'').join('') || '[]';
+  try { return JSON.parse(text.replace(/```json|```/g,'').trim()); }
+  catch { return []; }
+}
+
+// We use localStorage as the real store + AI to format/serve it
+function getScores() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch{ return []; }
+}
+function setScores(arr) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+function saveScore(name, level, score, total, pct) {
+  const arr = getScores();
+  const stars = pct>=90?'★★★':pct>=70?'★★☆':'★☆☆';
+  const time = new Date().toLocaleTimeString();
+  const idx = arr.findIndex(s=>s.name===name && s.level===level);
+  const entry = {name,level,score,total,pct,stars,time};
+  if(idx>=0) arr[idx]=entry; else arr.push(entry);
+  setScores(arr);
+  setSyncStatus('saved','✅ Score saved to scoreboard!');
+}
+
+function setSyncStatus(state, msg) {
+  const dot = document.getElementById('sb-dot');
+  const st = document.getElementById('sb-status');
+  if(!dot||!st) return;
+  dot.className='sync-dot'+(state==='syncing'?' syncing':state==='error'?' error':'');
+  st.textContent=msg;
+}
+
+/* ═══ SCOREBOARD RENDER ═══ */
+function loadScoreboard() {
+  setSyncStatus('syncing','Loading scores…');
+  const arr = getScores();
+  renderSB(arr);
+  setSyncStatus('ok','✅ Scores loaded — updates live as students complete games.');
+}
+
+function renderSB(arr) {
+  const el = document.getElementById('sb-content');
+  if(!arr.length){
+    el.innerHTML='<div class="info-box"><div class="info-icon">📊</div><div>No scores yet. Students complete games on any device and their scores appear here.</div></div>';
+    return;
+  }
+  const lvNames={1:'🌱 Level 1 — Knowledge & Recall',2:'🌿 Level 2 — Comprehension',3:'🌳 Level 3 — Critical Thinking'};
+  let html='';
+  [1,2,3].forEach(lv=>{
+    const rows=arr.filter(s=>s.level===lv).sort((a,b)=>b.pct-a.pct);
+    if(!rows.length) return;
+    html+=`<h3 style="font-size:14px;color:var(--teal);margin:18px 0 10px">${lvNames[lv]}</h3>
+    <table class="score-tbl"><thead><tr>
+      <th>Rank</th><th>Student</th><th>Score</th><th>%</th><th>Stars</th><th>Time</th>
+    </tr></thead><tbody>`;
+    rows.forEach((s,i)=>{
+      const cls=i===0?'rank1':i===1?'rank2':i===2?'rank3':'';
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1);
+      html+=`<tr>
+        <td class="${cls}">${medal}</td>
+        <td style="font-weight:700">${s.name}</td>
+        <td>${s.score}/${s.total}<div class="pct-bar"><div class="pct-fill" style="width:${s.pct}%"></div></div></td>
+        <td class="${cls}" style="font-weight:800">${s.pct}%</td>
+        <td class="stars">${s.stars}</td>
+        <td style="color:#aaa;font-size:11px">${s.time}</td>
+      </tr>`;
+    });
+    html+='</tbody></table>';
+  });
+  el.innerHTML=html;
+}
+
+function clearAll() {
+  if(confirm('Clear all scores for all students?')) { setScores([]); loadScoreboard(); }
+}
+
+function exportCSV() {
+  const arr=getScores();
+  if(!arr.length){alert('No scores to export yet.');return;}
+  const hdr='Student Name,Level,Score,Total,Percentage,Stars,Time\n';
+  const rows=arr.map(s=>`"${s.name}",${s.level},${s.score},${s.total},${s.pct}%,"${s.stars}","${s.time}"`).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([hdr+rows],{type:'text/csv'}));
+  a.download='class_scores_most_beloved_deeds.csv';
+  a.click();
+}
+
+/* ═══════════ GAME 1 — MCQ ═══════════ */
+const Q1=[
+  {q:"According to the Hadith, what is the most beloved deed to Allah?",opts:["The largest deed done once","The deed done continuously, even if small","Deeds done in Ramadan only","Deeds that require great effort"],ans:1,ex:"The Prophet ﷺ said: 'That which is done continuously, even if it is small.' (Muslim)"},
+  {q:"Who narrated the main Hadith of this lesson?",opts:["Abu Hurayrah","Umar ibn Al-Khattab","A'isha (May Allah be pleased with her)","Ali ibn Abi Talib"],ans:2,ex:"The Hadith was reported by A'isha (may Allah be pleased with her), narrated by Imam Muslim."},
+  {q:"What does the Arabic word 'أَدُومَهُ' mean?",opts:["A very large deed","Done continuously / uninterrupted","Performed in the mosque only","A major act of charity"],ans:1,ex:"'أَدُومَهُ' means the continued, uninterrupted performance of good deeds."},
+  {q:"Which Prophet's story shows how continuous praise of Allah saves from hardship?",opts:["Prophet Musa","Prophet Ibrahim","Prophet Yunus","Prophet Isa"],ans:2,ex:"Prophet Yunus's persistence in praising Allah saved him from inside the whale's stomach. (Surat As-Saffat 143–144)"},
+  {q:"The five daily prayers are compared to bathing in a river five times daily. What does this remove?",opts:["Hunger and tiredness","Sins — leaving no trace","The need for charity","Physical illness"],ans:1,ex:"The Prophet ﷺ said: 'That is the likeness of the five daily prayers. By means of them Allah erases sins.' (Al-Bukhari)"}
+];
+let g1={idx:0,score:0,done:false,name:''};
+function startG1(){
+  const n=document.getElementById('g1-name').value.trim();
+  if(!n){alert('Please enter your name first!');return;}
+  g1={idx:0,score:0,done:false,name:n};
+  renderG1();
+}
+function renderG1(){
+  const c=document.getElementById('g1-area');
+  if(g1.idx>=Q1.length){
+    const pct=Math.round(g1.score/Q1.length*100);
+    c.innerHTML=`<div class="result-splash show"><div class="splash-emoji">${pct>=80?'🌟':pct>=60?'😊':'📚'}</div>
+    <div class="splash-score">${g1.score}/${Q1.length}</div>
+    <div class="splash-label">${pct}% — ${pct>=80?'Excellent!':pct>=60?'Good work!':'Keep practicing!'}</div>
+    <p style="opacity:.8;margin-bottom:20px">Score saved for ${g1.name}! Visit the Scoreboard tab to see the class results.</p>
+    <button class="btn btn-gold" onclick="startG1()">Try Again</button></div>`;
+    saveScore(g1.name,1,g1.score,Q1.length,pct);
+    return;
+  }
+  const q=Q1[g1.idx];
+  const L=['A','B','C','D'];
+  c.innerHTML=`<div class="game-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="q-num">Question ${g1.idx+1} of ${Q1.length}</div>
+      <div style="font-size:12px;color:#aaa">Score: ${g1.score}/${g1.idx}</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${g1.idx/Q1.length*100}%"></div></div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">${q.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="ansG1(${i})"><div class="opt-ltr">${L[i]}</div><div>${o}</div></button>`).join('')}</div>
+    <div class="fb" id="fb1"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-primary" id="nb1" onclick="nextG1()" disabled>Next →</button></div>
+  </div>`;
+  g1.done=false;
+}
+function ansG1(ch){
+  if(g1.done) return; g1.done=true;
+  const ok=ch===Q1[g1.idx].ans;
+  if(ok) g1.score++;
+  for(let i=0;i<4;i++){const b=document.getElementById('o'+i);if(!b)continue;b.disabled=true;if(i===Q1[g1.idx].ans)b.classList.add('correct');else if(i===ch&&!ok)b.classList.add('wrong');}
+  const fb=document.getElementById('fb1');
+  fb.className='fb '+(ok?'correct':'wrong');
+  fb.innerHTML=(ok?'✅ ':'❌ ')+Q1[g1.idx].ex;
+  document.getElementById('nb1').disabled=false;
+}
+function nextG1(){g1.idx++;g1.done=false;renderG1();}
+
+/* ═══════════ GAME 2 — FILL + MATCH ═══════════ */
+const FILLS=[
+  {s:'The Hadith was narrated by <input class="fill-blank" id="fb_0" placeholder="..."> and reported by A\'isha.',a:'muslim'},
+  {s:'A Muslim should choose a deed they <input class="fill-blank" id="fb_1" placeholder="..."> to be able to continue it.',a:'can do'},
+  {s:'Allah does not get tired of giving <input class="fill-blank" id="fb_2" placeholder="..."> till you get tired.',a:'rewards'},
+  {s:'Continuous <input class="fill-blank" id="fb_3" placeholder="..."> good deeds are better than interrupted great ones.',a:'small'},
+];
+const ML=[{id:'a',t:'أَدُومَهُ (Adawamahu)'},{id:'b',t:'وَإِنْ قَلَّ (Wa in Qall)'},{id:'c',t:'Khalid'},{id:'d',t:'Jassim'},{id:'e',t:'Prophet Yunus ﷺ'}];
+const MR=[{id:'a',t:'Done continuously / uninterrupted'},{id:'b',t:'Even if it is small / little'},{id:'c',t:'Stopped honoring his mother after years'},{id:'d',t:'Continued caring for neighbor even after moving far'},{id:'e',t:'Saved from the whale by continuous praise of Allah'}];
+let g2={name:'',score:0,sel:null,matched:[]};
+function startG2(){
+  const n=document.getElementById('g2-name').value.trim();
+  if(!n){alert('Please enter your name first!');return;}
+  g2={name:n,score:0,sel:null,matched:[]};
+  renderG2Fill();
+}
+function renderG2Fill(){
+  const c=document.getElementById('g2-area');
+  c.innerHTML=`<div class="game-card">
+    <div class="q-num">PART A — Fill in the Blanks (4 points)</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
+    <p style="font-size:13px;color:#888;margin-bottom:18px">Complete each sentence with the correct word.</p>
+    ${FILLS.map((f,i)=>`<div class="s-fill">${i+1}. ${f.s}</div>`).join('<div style="height:10px"></div>')}
+    <div class="fb" id="fill-fb"></div>
+    <button class="btn btn-primary" onclick="checkFill()" style="margin-top:14px">Check → </button>
+  </div>`;
+}
+function checkFill(){
+  let pts=0;
+  FILLS.forEach((f,i)=>{
+    const el=document.getElementById('fb_'+i);
+    if(!el) return;
+    const v=el.value.trim().toLowerCase();
+    const ok=f.a.split('|').some(a=>v===a.trim());
+    el.className='fill-blank '+(ok?'correct':'wrong');
+    if(ok) pts++; else el.value=f.a;
+  });
+  g2.score+=pts;
+  const fb=document.getElementById('fill-fb');
+  fb.className='fb '+(pts>=3?'correct':'wrong');
+  fb.innerHTML=(pts>=3?'✅ ':'❌ ')+`You got ${pts}/4 correct! Moving to matching…`;
+  setTimeout(()=>renderG2Match(),2000);
+}
+function renderG2Match(){
+  g2.sel=null; g2.matched=[];
+  const shuffled=[...MR].sort(()=>Math.random()-0.5);
+  const c=document.getElementById('g2-area');
+  c.innerHTML=`<div class="game-card">
+    <div class="q-num">PART B — Matching (5 points)</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
+    <p style="font-size:13px;color:#888;margin-bottom:14px">Click a term on the left, then its match on the right.</p>
+    <div class="match-wrap">
+      <div><h4>Terms & People</h4>${ML.map(m=>`<div class="match-item" id="ml-${m.id}" onclick="selLeft('${m.id}')">${m.t}</div>`).join('')}</div>
+      <div><h4>Definitions</h4>${shuffled.map(m=>`<div class="match-item" id="mr-${m.id}" onclick="selRight('${m.id}')">${m.t}</div>`).join('')}</div>
+    </div>
+    <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" id="mp" style="width:0%"></div></div>
+    <div id="ms" style="font-size:12px;color:#aaa;margin-top:5px">Matched: 0/5</div>
+  </div>`;
+}
+function selLeft(id){
+  if(g2.matched.includes(id)) return;
+  document.querySelectorAll('[id^=ml-]').forEach(e=>e.classList.remove('selected'));
+  g2.sel=id; document.getElementById('ml-'+id).classList.add('selected');
+}
+function selRight(id){
+  if(!g2.sel||g2.matched.includes(id)) return;
+  if(g2.sel===id){
+    document.getElementById('ml-'+id).classList.replace('selected','matched');
+    document.getElementById('mr-'+id).classList.add('matched');
+    g2.matched.push(id); g2.score++; g2.sel=null;
+    document.getElementById('mp').style.width=(g2.matched.length/5*100)+'%';
+    document.getElementById('ms').textContent='Matched: '+g2.matched.length+'/5';
+    if(g2.matched.length===5) setTimeout(finishG2,700);
+  } else {
+    const el=document.getElementById('mr-'+id);
+    el.classList.add('bad'); setTimeout(()=>el.classList.remove('bad'),350);
+    g2.sel=null; document.querySelectorAll('[id^=ml-]').forEach(e=>e.classList.remove('selected'));
+  }
+}
+function finishG2(){
+  const total=9, pct=Math.round(g2.score/total*100);
+  document.getElementById('g2-area').innerHTML=`<div class="result-splash show">
+    <div class="splash-emoji">${pct>=80?'🌟':pct>=60?'😊':'📚'}</div>
+    <div class="splash-score">${g2.score}/${total}</div>
+    <div class="splash-label">${pct}% — ${pct>=80?'Excellent!':pct>=60?'Good work!':'Keep practicing!'}</div>
+    <p style="opacity:.8;margin-bottom:20px">Score saved for ${g2.name}!</p>
+    <button class="btn btn-gold" onclick="startG2()">Try Again</button></div>`;
+  saveScore(g2.name,2,g2.score,total,pct);
+}
+
+/* ═══════════ GAME 3 — SCENARIOS ═══════════ */
+const Q3=[
+  {q:"Sara prays 5 times daily and reads 1 page of Qur'an every morning. She feels it's 'too little'. Based on the Hadith, what should she do?",opts:["Stop and only pray on Fridays","Continue — consistency is more beloved to Allah than occasional large deeds","Only pray during Ramadan","Increase dramatically or stop"],ans:1,ex:"The Hadith teaches that consistent deeds, even small ones, are most beloved. Sara should keep her consistent routine!"},
+  {q:"Omar gives charity every week but stops because he thinks it's 'too little money'. What does the lesson teach?",opts:["He is right — only large amounts count","He should wait until rich","Small, continuous charity is more beloved to Allah","Charity only matters in Ramadan"],ans:2,ex:"The Hadith says 'even if it is small' — consistent small charity earns more reward than occasional large charity that stops."},
+  {q:"A student memorized Qur'an daily but stopped 2 months due to illness. What does the lesson say about her reward?",opts:["She lost all rewards since she stopped","She still receives rewards for deeds she cannot do due to illness (Al-Bukhari)","She must start from the beginning","Only deeds done in health count"],ans:1,ex:"The Prophet ﷺ said: 'When a servant of Allah falls ill or travels, he gets rewards similar to those practiced at home in good health.' (Al-Bukhari)"},
+  {q:"Which is better according to this lesson?",opts:["Reading 50 pages of Qur'an once a month, then stopping 3 months","Reading 1 page of Qur'an every single day without missing","Only reading in Ramadan in high amounts","Only reading when inspired"],ans:1,ex:"Continuous small deeds are better than interrupted great ones — the core teaching of this Hadith."},
+  {q:"Ahmed wants to start a good habit. What advice should he follow from this lesson?",opts:["Choose the most difficult deed to show great devotion","Do as many deeds as possible for one month then rest","Choose a deed he can do consistently, even if small","Only do deeds others can see"],ans:2,ex:"The Prophet ﷺ advised: 'Do only those good deeds which you can do' — choose what you can maintain consistently."}
+];
+let g3={idx:0,score:0,done:false,name:''};
+function startG3(){
+  const n=document.getElementById('g3-name').value.trim();
+  if(!n){alert('Please enter your name first!');return;}
+  g3={idx:0,score:0,done:false,name:n};
+  renderG3();
+}
+function renderG3(){
+  const c=document.getElementById('g3-area');
+  if(g3.idx>=Q3.length){
+    const pct=Math.round(g3.score/Q3.length*100);
+    c.innerHTML=`<div class="result-splash show"><div class="splash-emoji">${pct>=80?'🏅':pct>=60?'🌟':'📚'}</div>
+    <div class="splash-score">${g3.score}/${Q3.length}</div>
+    <div class="splash-label">${pct}% — ${pct>=80?'Outstanding!':pct>=60?'Good thinking!':'Keep studying!'}</div>
+    <p style="opacity:.8;margin-bottom:20px">Score saved for ${g3.name}!</p>
+    <button class="btn btn-gold" onclick="startG3()">Try Again</button></div>`;
+    saveScore(g3.name,3,g3.score,Q3.length,pct);
+    return;
+  }
+  const q=Q3[g3.idx];
+  const L=['A','B','C','D'];
+  c.innerHTML=`<div class="game-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div class="q-num">Scenario ${g3.idx+1} of ${Q3.length}</div>
+      <div style="font-size:12px;color:#aaa">Score: ${g3.score}/${g3.idx}</div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${g3.idx/Q3.length*100}%"></div></div>
+    <div style="background:linear-gradient(135deg,rgba(74,32,114,0.07),rgba(26,112,128,0.07));border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:5px">📜 SCENARIO</div>
+      <div class="q-text" style="margin-bottom:0">${q.q}</div>
+    </div>
+    <div class="opts">${q.opts.map((o,i)=>`<button class="opt" id="o3${i}" onclick="ansG3(${i})"><div class="opt-ltr">${L[i]}</div><div>${o}</div></button>`).join('')}</div>
+    <div class="fb" id="fb3"></div>
+    <div style="text-align:right;margin-top:14px"><button class="btn btn-primary" id="nb3" onclick="nextG3()" disabled>Next →</button></div>
+  </div>`;
+  g3.done=false;
+}
+function ansG3(ch){
+  if(g3.done) return; g3.done=true;
+  const ok=ch===Q3[g3.idx].ans;
+  if(ok) g3.score++;
+  for(let i=0;i<4;i++){const b=document.getElementById('o3'+i);if(!b)continue;b.disabled=true;if(i===Q3[g3.idx].ans)b.classList.add('correct');else if(i===ch&&!ok)b.classList.add('wrong');}
+  const fb=document.getElementById('fb3');
+  fb.className='fb '+(ok?'correct':'wrong');
+  fb.innerHTML=(ok?'✅ ':'❌ ')+Q3[g3.idx].ex;
+  document.getElementById('nb3').disabled=false;
+}
+function nextG3(){g3.idx++;g3.done=false;renderG3();}
+
+/* ═══ AUTO-REFRESH SCOREBOARD ═══ */
+// Refresh every 15s when scoreboard is open
+setInterval(()=>{
+  if(document.getElementById('scoreboard').classList.contains('active')) loadScoreboard();
+},15000);
+</script>
+</body>
+</html>
